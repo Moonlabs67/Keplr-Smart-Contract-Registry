@@ -1,0 +1,63 @@
+{
+  "name": "keplr-contract-registry",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "rm -rf node_modules; rm -rf build",
+    "dev": "nodemon",
+    "crawl": "ts-node src/dev/crawling.ts",
+    "build": "tsc",
+    "build:clean": "yarn clean && yarn install --immutable && yarn build",
+    "bundle": "rm -rf bundle && esbuild ./src/index.ts --bundle --minify --sourcemap --platform=node --target=node18 --outdir=bundle/server && cp -r ./cosmos ./bundle",
+    "lint-test": "eslint \"src/**/*\" && prettier --check \"src/**/*\"",
+    "lint-fix": "eslint --fix \"src/**/*\" && prettier --write \"src/**/*\"",
+    "validate:token": "ts-node src/scripts/validate-token.ts",
+    "validate:image": "ts-node src/scripts/validate-image.ts",
+    "pre-commit": "lint-staged"
+  },
+  "pre-commit": [
+    "pre-commit"
+  ],
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint",
+      "prettier --check"
+    ],
+    "*.json": [
+      "yarn validate:token"
+    ]
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@pulumi/aws": "^5.41.0",
+    "@pulumi/pulumi": "^3.73.0",
+    "@types/koa": "^2.13.6",
+    "@types/koa-router": "^7.4.4",
+    "@types/node": "^18",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "esbuild": "^0.18.10",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "lint-staged": "^10.5.4",
+    "nodemon": "^2.0.22",
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.8.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "packageManager": "yarn@3.4.1",
+  "dependencies": {
+    "@keplr-wallet/common": "^0.12.12",
+    "@keplr-wallet/cosmos": "^0.12.12",
+    "axios": "^1.4.0",
+    "curve25519-js": "^0.0.4",
+    "image-size": "^1.1.1",
+    "joi": "^17.9.2",
+    "koa": "^2.14.2",
+    "koa-router": "^12.0.0",
+    "miscreant": "^0.3.2",
+    "serverless-http": "^3.2.0"
+  }
+}
